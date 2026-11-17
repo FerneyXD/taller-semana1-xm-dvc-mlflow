@@ -55,20 +55,20 @@ stages:
         train.modelo: sarimax
         train.orden:
         - 1
-        - 1
+        - 0
         - 1
         train.orden_estacional:
         - 1
         - 1
-        - 0
+        - 1
         - 24
-        train.usar_exogena: true
+        train.usar_exogena: false
     outs:
     - path: data/processed/predicciones_test.csv
       hash: md5
-      md5: f7671aba5cc2c7928e961681d09c665b
-      size: 4351
+      md5: 2c9b2b9a3df93267ef094c8cc13c1ec4
+      size: 4343
     - path: metrics.json
       hash: md5
-      md5: f751a8d9fabd79179556f864ddebd5d2
+      md5: aab467ef466697b466e444647a89043f
       size: 325
