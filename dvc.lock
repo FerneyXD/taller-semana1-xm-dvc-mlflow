@@ -45,13 +45,13 @@ stages:
       size: 2712
     - path: src/train.py
       hash: md5
-      md5: 34a0cb57a4b164de9b2f34e6dd96d455
-      size: 2661
+      md5: a7973fe0c2c13898f5cd7de6ec044712
+      size: 11633
     params:
       params.yaml:
         train.experimento_mlflow: s1_taller_xm
         train.fuente: XM_DemaCome_OpenMeteo_Bogota
-        train.modelo: baseline
+        train.modelo: sarimax
         train.orden:
         - 2
         - 1
@@ -65,9 +65,9 @@ stages:
     outs:
     - path: data/processed/predicciones_test.csv
       hash: md5
-      md5: 35791968ce5a3d2306bf1a39879c7896
-      size: 2211
+      md5: 7d028069e4fcae1f21e8afa9688f8c7d
+      size: 4330
     - path: metrics.json
       hash: md5
-      md5: 5ee37e28a0bab26a0fc5a8cf8da0adbb
-      size: 140
+      md5: d6db6542958056909d12f866a2c4eada
+      size: 323

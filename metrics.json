@@ -1,8 +1,12 @@
 {
-  "modelo": "baseline",
+  "modelo": "sarimax_sinexog_210_111_24",
+  "mlflow_run_id": "2f09f9c9909b48d48d45c304d7aae53a",
   "n_train": 1080,
   "n_test": 48,
-  "rmse_test": 170.6939,
-  "mae_test": 149.9995,
-  "mape_test": 1.4082
+  "converged": true,
+  "rmse_test": 270.5018010439814,
+  "mae_test": 216.3378630008841,
+  "mape_test": 1.8776509158332,
+  "aic": 12014.036251282108,
+  "bic": 12038.717964961279
 }
