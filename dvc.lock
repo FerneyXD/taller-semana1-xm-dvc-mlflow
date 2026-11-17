@@ -61,13 +61,13 @@ stages:
         - 1
         - 1
         - 24
-        train.usar_exogena: false
+        train.usar_exogena: true
     outs:
     - path: data/processed/predicciones_test.csv
       hash: md5
-      md5: 2c9b2b9a3df93267ef094c8cc13c1ec4
+      md5: 34ece6465ca4c4559a8fbb58dc291ef6
       size: 4343
     - path: metrics.json
       hash: md5
-      md5: 3af55ac684d497eb811b213c0addb1fb
-      size: 325
+      md5: b69cbe140e35c14a252d332c27d0201e
+      size: 324
