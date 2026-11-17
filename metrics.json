@@ -1,0 +1,8 @@
+{
+  "modelo": "baseline",
+  "n_train": 1080,
+  "n_test": 48,
+  "rmse_test": 170.6939,
+  "mae_test": 149.9995,
+  "mape_test": 1.4082
+}

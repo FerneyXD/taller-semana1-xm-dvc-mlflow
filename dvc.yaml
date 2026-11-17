@@ -1,0 +1,33 @@
+stages:
+  prepare:
+    cmd: python -m src.prepare
+    deps:
+      - data/xm_demanda.csv
+      - src/config.py
+      - src/prepare.py
+    params:
+      - prepare.dias_entrenamiento
+      - prepare.horas_prueba
+    outs:
+      - data/processed/train.csv
+      - data/processed/test.csv
+
+  train:
+    cmd: python -m src.train
+    deps:
+      - data/processed/train.csv
+      - data/processed/test.csv
+      - src/config.py
+      - src/train.py
+    params:
+      - train.modelo
+      - train.orden
+      - train.orden_estacional
+      - train.usar_exogena
+      - train.experimento_mlflow
+      - train.fuente
+    outs:
+      - data/processed/predicciones_test.csv
+    metrics:
+      - metrics.json:
+          cache: false

@@ -1,0 +1,73 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python -m src.prepare
+    deps:
+    - path: data/xm_demanda.csv
+      hash: md5
+      md5: 133d48931a88253b9da7d2b5878e80bb
+      size: 74691
+    - path: src/config.py
+      hash: md5
+      md5: 47a591735c663f801cbe8f34c539f3d8
+      size: 2712
+    - path: src/prepare.py
+      hash: md5
+      md5: bed2ce5be5ad58d94d5478f848d9407d
+      size: 3151
+    params:
+      params.yaml:
+        prepare.dias_entrenamiento: 45
+        prepare.horas_prueba: 48
+    outs:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 5181ffe3308cf6491f16dc03f40278ad
+      size: 1887
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 316308a625893c29fe5ed607857ee17d
+      size: 41029
+  train:
+    cmd: python -m src.train
+    deps:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 5181ffe3308cf6491f16dc03f40278ad
+      size: 1887
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 316308a625893c29fe5ed607857ee17d
+      size: 41029
+    - path: src/config.py
+      hash: md5
+      md5: 47a591735c663f801cbe8f34c539f3d8
+      size: 2712
+    - path: src/train.py
+      hash: md5
+      md5: 34a0cb57a4b164de9b2f34e6dd96d455
+      size: 2661
+    params:
+      params.yaml:
+        train.experimento_mlflow: s1_taller_xm
+        train.fuente: XM_DemaCome_OpenMeteo_Bogota
+        train.modelo: baseline
+        train.orden:
+        - 2
+        - 1
+        - 0
+        train.orden_estacional:
+        - 1
+        - 1
+        - 1
+        - 24
+        train.usar_exogena: false
+    outs:
+    - path: data/processed/predicciones_test.csv
+      hash: md5
+      md5: 35791968ce5a3d2306bf1a39879c7896
+      size: 2211
+    - path: metrics.json
+      hash: md5
+      md5: 5ee37e28a0bab26a0fc5a8cf8da0adbb
+      size: 140
