@@ -2,13 +2,16 @@
 
 ---
 
-## 1. Entorno y configuración inicial (Parte 1)
+## 1. Entorno y configuración inicial (Parte 1 — Desplegado en AWS)
 
 - **Repositorio Git:** rama `main` (`user.name = FerneyXD`, `user.email = ferney.guillen01@usa.edu.co`)
 - **Python y dependencias clave:** Python `3.12.13`, `pandas==2.3.3` (`<3` obligatorio para `pydataxm`), `pydataxm==0.3.19`, `statsmodels==0.15.0`, `mlflow==3.18.0`, `dvc==3.67.1`, `dvc-s3==3.3.0`, `numpy==2.5.5`, `matplotlib==3.11.2`.
-- **Remoto DVC:** Amazon S3 (`aws_s3 -> s3://dvc-taller-xm-509780086678/dvcstore`, región `us-east-1`, cuenta AWS `509780086678`).
-- **Servidor MLflow:** `http://127.0.0.1:5000` con backend SQLite `sqlite:///mlflow.db` y artefactos en `./mlartifacts`.
-- **Experimento MLflow:** `s1_taller_xm`.
+- **Remoto DVC (AWS S3):** `aws_s3 -> s3://dvc-taller-xm-509780086678/dvcstore` (región `us-east-1`, cuenta AWS `509780086678`).
+- **Servidor MLflow en AWS EC2:** `http://35.171.88.196` (Nginx puerto `80` con compresión gzip -> MLflow `:5000`)
+  - **Instancia EC2:** `i-079e351d5f0b88938` (`MLflow-Taller-XM-Server`, `t3.medium`, 4 GB RAM + 2 GB swap, Ubuntu 22.04, key pair `vockey`, rol IAM `LabInstanceProfile`, security group `sg-0e995d518d3b63532` con puertos 22, 80 y 5000).
+  - **Backend Store:** `sqlite:////opt/mlflow/mlflow.db` gestionado por `systemd` (`mlflow-server.service`, `--workers 1`).
+  - **Artifact Store (AWS S3):** `s3://dvc-taller-xm-509780086678/mlflow-artifacts` (`--serve-artifacts`, 32 archivos verificados en S3).
+- **Experimento MLflow:** `s1_taller_xm` (`http://35.171.88.196/#/experiments/1`).
 - **Seguridad:** Ninguna credencial ni llave privada (`*.pem`, `.env`, `mlflow.db`) fue versionada en Git (protegidas en `.gitignore`).
 
 ---
@@ -70,20 +73,20 @@ En la primera ejecución, DVC calcula y registra en `dvc.lock` los hashes MD5 de
 
 ---
 
-## 5. Comparación de runs en MLflow (Partes 5 y 7)
+## 5. Comparación de runs en MLflow AWS (Partes 5 y 7)
 
-Tabla exportada desde MLflow mediante `src/compare.py` (`mlflow.search_runs(..., order_by=["metrics.rmse_test ASC"])`) en `comparacion_runs.csv` (incluye las 6 configuraciones sobre `v3` y la extensión opcional de la Parte 5.4 sobre `v1`):
+Tabla exportada desde MLflow en AWS EC2 (`http://35.171.88.196`) mediante `src/compare.py` (`mlflow.search_runs(..., order_by=["metrics.rmse_test ASC"])`) en `comparacion_runs.csv` (incluye las 6 configuraciones sobre `v3` y la extensión opcional de la Parte 5.4 sobre `v1`, con todos los artefactos persistidos en `s3://dvc-taller-xm-509780086678/mlflow-artifacts/`):
 
 | # | Run Name | Dataset | Exógena | `rmse_test` (MWh) | `mae_test` (MWh) | `mape_test` (%) | AIC | BIC | `dvc_data_hash` | `git_commit` |
 | :-: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- | :---: |
 | — | *Baseline naive 24h* | v3 | No | *170.69* | *150.00* | *1.41* | — | — | `133d4893...` | `b0683f7` |
-| 1 | **`sarimax_sinexog_210_111_24`** | **v3** | **No** | **270.50** | **216.34** | **1.88** | **12,014.04** | **12,038.72** | `133d4893...` | `dc65f82` |
-| 2 | `sarimax_exog_210_111_24` | v3 | Sí | 271.92 | 217.90 | 1.89 | 12,015.79 | 12,045.41 | `133d4893...` | `492267f` |
-| 3 | `sarimax_sinexog_210_111_24` *(ext. v1)* | v1 | No | 274.06 | 227.93 | 2.06 | 11,979.38 | 12,004.06 | `4eb914f5...` | `027b7e2` |
-| 4 | `sarimax_sinexog_111_110_24` | v3 | No | 359.16 | 313.30 | 2.92 | 12,298.29 | 12,318.04 | `133d4893...` | `2b98592` |
-| 5 | `sarimax_exog_111_110_24` | v3 | Sí | 359.48 | 313.40 | 2.92 | 12,300.19 | 12,324.88 | `133d4893...` | `1b71e13` |
-| 6 | `sarimax_sinexog_101_111_24` | v3 | No | 461.75 | 405.61 | 3.57 | 12,096.59 | 12,121.27 | `133d4893...` | `39f9d66` |
-| 7 | `sarimax_exog_101_111_24` | v3 | Sí | 463.35 | 407.48 | 3.59 | 12,097.89 | 12,127.51 | `133d4893...` | `1bfb7dc` |
+| 1 | **`sarimax_sinexog_210_111_24`** | **v3** | **No** | **270.50** | **216.34** | **1.88** | **12,014.04** | **12,038.72** | `133d4893...` | `662d55d` |
+| 2 | `sarimax_exog_210_111_24` | v3 | Sí | 271.92 | 217.90 | 1.89 | 12,015.79 | 12,045.41 | `133d4893...` | `8644190` |
+| 3 | `sarimax_sinexog_210_111_24` *(ext. v1)* | v1 | No | 274.06 | 227.93 | 2.06 | 11,979.38 | 12,004.06 | `4eb914f5...` | `6f41a8d` |
+| 4 | `sarimax_sinexog_111_110_24` | v3 | No | 359.16 | 313.30 | 2.92 | 12,298.29 | 12,318.04 | `133d4893...` | `bdebc7d` |
+| 5 | `sarimax_exog_111_110_24` | v3 | Sí | 359.48 | 313.40 | 2.92 | 12,300.19 | 12,324.88 | `133d4893...` | `d92cacf` |
+| 6 | `sarimax_sinexog_101_111_24` | v3 | No | 461.75 | 405.61 | 3.57 | 12,096.59 | 12,121.27 | `133d4893...` | `940fcb0` |
+| 7 | `sarimax_exog_101_111_24` | v3 | Sí | 463.35 | 407.48 | 3.59 | 12,097.89 | 12,127.51 | `133d4893...` | `dc7cd52` |
 
 *(Supuesto declarado para runs con exógena: se utilizó temperatura horaria observada ex-post de Bogotá en el horizonte de prueba de 48h.)*
 
@@ -94,7 +97,7 @@ Tabla exportada desde MLflow mediante `src/compare.py` (`mlflow.search_runs(...,
 1. La temperatura de Bogotá **no mejora** el pronóstico en ninguno de los tres órdenes probados (+1.42, +0.32 y +1.60 MWh de RMSE frente a su par sin exógena), porque una sola ciudad fría (~15.7 °C) explica poco de la demanda nacional agregada del SIN.
 2. Frente al **baseline naive 24h** (`170.69 MWh`), ningún SARIMAX con estacionalidad única $s=24$ logró mejorarlo (el mejor SARIMAX obtiene `270.50 MWh`, +99.81 MWh / +58.5% más error), debido a que el horizonte de prueba cayó en dos días laborales consecutivos (miércoles–jueves) muy similares al martes previo, mientras SARIMAX($s=24$) arrastra el efecto de fines de semana sin modelar el ciclo semanal ($s=168$).
 3. El menor AIC/BIC **no siempre garantiza** menor error en prueba: aunque el ganador coincide en menor AIC/BIC (`12,014.04` / `12,038.72`) y menor `rmse_test`, el orden `(1,0,1)(1,1,1,24)` logra mejor AIC/BIC (`12,096.59`) que `(1,1,1)(1,1,0,24)` (`12,298.29`) pero produce un RMSE mucho mayor (`461.75` vs `359.16 MWh`).
-4. **Modelo elegido:** entre las configuraciones SARIMAX se selecciona **`sarimax_sinexog_210_111_24`** (`dc65f82`, `dvc_data_hash = 133d48931a88253b9da7d2b5878e80bb`) por alcanzar el menor RMSE (`270.50 MWh`), MAE (`216.34 MWh`), MAPE (`1.88%`) y AIC/BIC, y por no requerir pronósticos futuros de temperatura en operación.
+4. **Modelo elegido:** entre las configuraciones SARIMAX se selecciona **`sarimax_sinexog_210_111_24`** (`662d55d`, `dvc_data_hash = 133d48931a88253b9da7d2b5878e80bb`) por alcanzar el menor RMSE (`270.50 MWh`), MAE (`216.34 MWh`), MAPE (`1.88%`) y AIC/BIC, y por no requerir pronósticos futuros de temperatura en operación.
 5. Como siguiente iteración para superar al baseline naive 24h se recomienda incorporar dummies de tipo de día (laboral/sábado/domingo/festivo) o estacionalidad múltiple ($s=24, 168$) y temperatura ponderada de ciudades cálidas (Barranquilla, Cali, Medellín).
 
 ---
@@ -108,7 +111,7 @@ Auditoria automatizada ejecutada con `python -m src.verify` (`all_passed: true`)
    - `test`: `2026-11-11T00:00:00` a `2026-11-12T23:00:00` (`48` filas).
    - Brecha exacta entre el fin de `train` y el inicio de `test`: **`1.0` hora**, sin solapamiento, frecuencia constante de 3,600 s y cero imputaciones usando estadísticas de prueba.
 2. **Recálculo manual con NumPy del RMSE frente a MLflow (`recalculo_manual_rmse_numpy_vs_mlflow`: PASS):**
-   - Run auditado: `sarimax_sinexog_210_111_24` (`run_id = 2f09f9c9909b48d48d45c304d7aae53a`), descargando su artefacto `predicciones_test.csv` directamente desde MLflow.
+   - Run auditado: `sarimax_sinexog_210_111_24` (`run_id = f478194418334ff8a2ee3da1b9b8109f`), descargando su artefacto `predicciones_test.csv` directamente desde MLflow AWS / S3.
    - `mlflow_rmse = 270.5018010439814` vs `manual_numpy_rmse = 270.5018010439815` → **diferencia absoluta = `1.14e-13`** (precisión de punto flotante). MAE (`216.337863`) y MAPE (`1.877651%`) también coinciden exactamente.
 3. **Verificación de trazabilidad Git + DVC (`trazabilidad_git_y_dvc`: PASS — 7/7 runs):**
    - Para los 7 runs de `s1_taller_xm`, se ejecutó `git show <git_commit>:data/xm_demanda.csv.dvc` y se comprobó que el commit existe en Git y que su `md5` coincide exactamente con el tag `dvc_data_hash` en MLflow (`133d48931a88253b9da7d2b5878e80bb` en los 6 runs de v3 y `4eb914f51a1e0a4bf96a2267544c6c57` en el run de extensión v1).
@@ -119,22 +122,22 @@ Auditoria automatizada ejecutada con `python -m src.verify` (`all_passed: true`)
 
 ---
 
-## 8. Prueba de reproducibilidad del modelo ganador (Parte 8)
+## 8. Prueba de reproducibilidad del modelo ganador (Parte 8 — AWS EC2 + S3)
 
 - **Modelo objetivo:** `sarimax_sinexog_210_111_24`
-- **Run original MLflow:** `2f09f9c9909b48d48d45c304d7aae53a`
-- **Trazabilidad objetivo:** `git_commit = dc65f82d1951387938c44cde9476ccd5427daa9e` · `dvc_data_hash = 133d48931a88253b9da7d2b5878e80bb`
+- **Run original MLflow AWS:** `f478194418334ff8a2ee3da1b9b8109f`
+- **Trazabilidad objetivo:** `git_commit = 662d55d51216fc57283138fa3326d59783131fec` · `dvc_data_hash = 133d48931a88253b9da7d2b5878e80bb`
 
 ### Procedimiento ejecutado desde cero
-1. Borrado total de `data/xm_demanda.csv`, `data/processed/*` y `.dvc/cache/` (verificado: `Existe data/xm_demanda.csv?: False`, `Existe .dvc/cache?: False`).
-2. Recuperación de código y parámetros exactos: `git checkout dc65f82d1951387938c44cde9476ccd5427daa9e`.
+1. Borrado total de `data/xm_demanda.csv`, `data/processed/*` y `.dvc/cache/`.
+2. Recuperación de código y parámetros exactos: `git checkout 662d55d51216fc57283138fa3326d59783131fec`.
 3. Descarga de datos desde Amazon S3: `dvc pull data/xm_demanda.csv.dvc` → `1 file fetched and 1 file added`; MD5 verificado en disco: `133d48931a88253b9da7d2b5878e80bb`.
-4. Reejecución completa de `prepare` y `train`: `dvc repro -f` → nuevo run MLflow `81a19f375a52405f818c8cdce70baac5`.
+4. Reejecución completa de `prepare` y `train`: `dvc repro -f` → nuevo run MLflow AWS `537e7bb77e114b31827e03d20192ce16` (etiquetado `reproducibility_check=true`).
 5. Retorno a la rama principal: `git checkout main` y restauración de caché con `dvc pull`.
 
 ### Comparación de métricas: Original vs Reproducido
 
-| Métrica | Run Original (`2f09f9c9...`) | Run Reproducido (`81a19f37...`) | Diferencia absoluta |
+| Métrica | Run Original (`f4781944...`) | Run Reproducido (`537e7bb7...`) | Diferencia absoluta |
 | :--- | :---: | :---: | :---: |
 | `rmse_test` (MWh) | `270.5018010439814` | `270.5018010439814` | `0.0` |
 | `mae_test` (MWh) | `216.3378630008841` | `216.3378630008841` | `0.0` |
@@ -142,7 +145,7 @@ Auditoria automatizada ejecutada con `python -m src.verify` (`all_passed: true`)
 | `aic` | `12014.036251282108` | `12014.036251282108` | `0.0` |
 | `bic` | `12038.717964961279` | `12038.717964961279` | `0.0` |
 
-**Resultado:** Reproducibilidad **bit a bit exacta** (`diferencia = 0.0` en todas las métricas) reconstruyendo desde Git + Amazon S3.
+**Resultado:** Reproducibilidad **bit a bit exacta** (`diferencia = 0.0` en todas las métricas) reconstruyendo desde Git + Amazon S3 contra MLflow en AWS EC2 (`http://35.171.88.196`).
 
 ---
 

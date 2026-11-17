@@ -1,6 +1,13 @@
-# Taller Semana 1 — Pronóstico de demanda eléctrica XM con DVC y MLflow
+# Taller Semana 1 — Pronóstico de demanda eléctrica XM con DVC y MLflow en AWS
 
-Flujo reproducible de punta a punta para pronosticar la demanda comercial horaria del Sistema Interconectado Nacional (SIN) de Colombia (XM `DemaCome`) con temperatura exógena de Bogotá (Open-Meteo), versionamiento de datos en **DVC (remoto AWS S3)** y trazabilidad de experimentos en **MLflow (backend SQLite)**.
+Flujo reproducible de punta a punta para pronosticar la demanda comercial horaria del Sistema Interconectado Nacional (SIN) de Colombia (XM `DemaCome`) con temperatura exógena de Bogotá (Open-Meteo), versionamiento de datos en **DVC (remoto AWS S3)** y trazabilidad de experimentos en **MLflow desplegado en AWS EC2 (`t3.medium`) con artefactos en S3**.
+
+## Infraestructura en AWS (`us-east-1`, cuenta `509780086678`)
+
+- **Servidor MLflow UI / API:** `http://35.171.88.196` (puerto `80` con Nginx + gzip -> MLflow `:5000`; instancia `i-079e351d5f0b88938`, `t3.medium`, 4 GB RAM + 2 GB swap)
+- **Experimento MLflow:** `http://35.171.88.196/#/experiments/1` (`s1_taller_xm`)
+- **Artefactos MLflow (S3):** `s3://dvc-taller-xm-509780086678/mlflow-artifacts/`
+- **Remoto DVC (S3):** `s3://dvc-taller-xm-509780086678/dvcstore/`
 
 ## Estructura del repositorio
 
@@ -35,8 +42,8 @@ Flujo reproducible de punta a punta para pronosticar la demanda comercial horari
 uv venv --python 3.12 .venv
 uv pip install --python .venv/Scripts/python.exe -r requirements.txt
 
-# 2. Levantar servidor MLflow local (SQLite)
-.venv/Scripts/mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./mlartifacts --host 127.0.0.1 --port 5000
+# 2. Verificar servidor MLflow desplegado en AWS EC2
+curl http://35.171.88.196/health
 
 # 3. Descargar datos desde remoto DVC (AWS S3) y reproducir pipeline
 .venv/Scripts/dvc pull
