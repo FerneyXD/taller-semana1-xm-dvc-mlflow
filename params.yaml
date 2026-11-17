@@ -1,0 +1,12 @@
+prepare:
+  dias_entrenamiento: 45
+  horas_prueba: 48
+
+train:
+  modelo: baseline
+  orden: [2, 1, 0]
+  orden_estacional: [1, 1, 1, 24]
+  usar_exogena: false
+  experimento_mlflow: s1_taller_xm
+  mlflow_tracking_uri: http://127.0.0.1:5000
+  fuente: XM_DemaCome_OpenMeteo_Bogota

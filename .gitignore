@@ -1,0 +1,29 @@
+# Entorno virtual y cachés de Python
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Secretos, llaves y credenciales (NUNCA versionar)
+*.pem
+*.key
+.env
+.env.*
+credentials.json
+
+# MLflow local (SQLite y artefactos locales)
+mlflow.db
+mlflow.db-shm
+mlflow.db-wal
+mlartifacts/
+mlruns/
+
+# Datos procesados intermedios y salidas gestionadas por DVC
+/data/processed/
+/data/xm_demanda.csv
+
+# Logs y archivos temporales
+*.log
+.DS_Store
+Thumbs.db
