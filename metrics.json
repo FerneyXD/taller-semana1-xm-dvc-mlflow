@@ -1,12 +1,12 @@
 {
-  "modelo": "sarimax_exog_101_111_24",
-  "mlflow_run_id": "9771ea262f8c4e86aac5b071d708c70a",
+  "modelo": "sarimax_sinexog_210_111_24",
+  "mlflow_run_id": "6fd771ad773c4eb49177177c6b91cb0c",
   "n_train": 1080,
   "n_test": 48,
   "converged": true,
-  "rmse_test": 463.34901318112554,
-  "mae_test": 407.47690611784515,
-  "mape_test": 3.587209057018989,
-  "aic": 12097.888125944202,
-  "bic": 12127.512010431545
+  "rmse_test": 274.0560739964805,
+  "mae_test": 227.93227387451086,
+  "mape_test": 2.059858557107466,
+  "aic": 11979.378943924152,
+  "bic": 12004.060657603322
 }
