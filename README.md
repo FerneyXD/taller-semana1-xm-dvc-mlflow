@@ -4,8 +4,8 @@ Flujo reproducible de punta a punta para pronosticar la demanda comercial horari
 
 ## Infraestructura en AWS (`us-east-1`, cuenta `509780086678`)
 
-- **Servidor MLflow UI / API (IP Elástica fija):** `http://54.243.189.124` (`eipalloc-02c85de3f78109a57`, puerto `80` con Nginx + gzip -> MLflow `:5000`; instancia `i-079e351d5f0b88938`, `t3.medium`, 4 GB RAM + 2 GB swap)
-- **Experimento MLflow:** `http://54.243.189.124/#/experiments/1` (`s1_taller_xm`)
+- **Servidor MLflow UI / API:** `http://98.83.152.10` (IP pública dinámica sin Elastic IP para evitar costos en reposo; puerto `80` con Nginx + gzip -> MLflow `:5000`; instancia `i-079e351d5f0b88938`, `t3.medium`, 4 GB RAM + 2 GB swap)
+- **Experimento MLflow:** `http://98.83.152.10/#/experiments/1` (`s1_taller_xm`)
 - **Artefactos MLflow (S3):** `s3://dvc-taller-xm-509780086678/mlflow-artifacts/`
 - **Remoto DVC (S3):** `s3://dvc-taller-xm-509780086678/dvcstore/`
 
@@ -43,7 +43,7 @@ uv venv --python 3.12 .venv
 uv pip install --python .venv/Scripts/python.exe -r requirements.txt
 
 # 2. Verificar servidor MLflow desplegado en AWS EC2
-curl http://54.243.189.124/health
+curl http://98.83.152.10/health
 
 # 3. Descargar datos desde remoto DVC (AWS S3) y reproducir pipeline
 .venv/Scripts/dvc pull
