@@ -9,12 +9,12 @@ stages:
       size: 74691
     - path: src/config.py
       hash: md5
-      md5: 47a591735c663f801cbe8f34c539f3d8
-      size: 2712
+      md5: 51d2ba4fa65702644fa3ee78e5532f02
+      size: 2713
     - path: src/prepare.py
       hash: md5
-      md5: bed2ce5be5ad58d94d5478f848d9407d
-      size: 3151
+      md5: c4af7fecd1f505dcc88a72b88f31ec05
+      size: 3152
     params:
       params.yaml:
         prepare.dias_entrenamiento: 45
@@ -54,20 +54,20 @@ stages:
         train.modelo: sarimax
         train.orden:
         - 1
-        - 1
+        - 0
         - 1
         train.orden_estacional:
         - 1
         - 1
-        - 0
+        - 1
         - 24
-        train.usar_exogena: true
+        train.usar_exogena: false
     outs:
     - path: data/processed/predicciones_test.csv
       hash: md5
-      md5: f7671aba5cc2c7928e961681d09c665b
-      size: 4351
+      md5: 2c9b2b9a3df93267ef094c8cc13c1ec4
+      size: 4343
     - path: metrics.json
       hash: md5
-      md5: d0b2e20f369ff6e3c48fb73e2f5b7f99
+      md5: 3af55ac684d497eb811b213c0addb1fb
       size: 325
