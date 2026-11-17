@@ -1,20 +1,20 @@
 {
-  "n_observaciones": 1800,
+  "n_observaciones": 1872,
   "fecha_inicio": "2026-08-29T00:00:00",
-  "fecha_fin": "2026-11-11T23:00:00",
+  "fecha_fin": "2026-11-14T23:00:00",
   "indice_horario_regular": true,
   "nulos_demanda": 0,
   "nulos_temperatura": 0,
-  "demanda_min_mwh": 7565.896,
+  "demanda_min_mwh": 1764.325,
   "demanda_max_mwh": 12707.34,
-  "demanda_media_mwh": 10275.086,
+  "demanda_media_mwh": 10080.691,
   "temperatura_min_c": 9.0,
   "temperatura_max_c": 24.0,
-  "temperatura_media_c": 15.71,
-  "atipicos_iqr_demanda": 0,
+  "temperatura_media_c": 15.7,
+  "atipicos_iqr_demanda": 48,
   "limites_iqr_demanda": [
-    6288.45,
-    14317.23
+    6163.92,
+    14373.45
   ],
   "duplicados_xm": 0,
   "huecos_xm_imputados": 0,
