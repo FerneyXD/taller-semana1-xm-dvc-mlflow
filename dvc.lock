@@ -5,16 +5,16 @@ stages:
     deps:
     - path: data/xm_demanda.csv
       hash: md5
-      md5: 4eb914f51a1e0a4bf96a2267544c6c57
-      size: 70871
+      md5: 133d48931a88253b9da7d2b5878e80bb
+      size: 74691
     - path: src/config.py
       hash: md5
-      md5: 51d2ba4fa65702644fa3ee78e5532f02
-      size: 2713
+      md5: ba275c086f0349cce14b98cc5a19c748
+      size: 2788
     - path: src/prepare.py
       hash: md5
-      md5: c4af7fecd1f505dcc88a72b88f31ec05
-      size: 3152
+      md5: d55b1525d314f833a19582593db80431
+      size: 3241
     params:
       params.yaml:
         prepare.dias_entrenamiento: 45
@@ -22,27 +22,27 @@ stages:
     outs:
     - path: data/processed/test.csv
       hash: md5
-      md5: 36938e8c6ded4719009f683901e93272
-      size: 1862
+      md5: 5181ffe3308cf6491f16dc03f40278ad
+      size: 1887
     - path: data/processed/train.csv
       hash: md5
-      md5: 361c02f3cc89284de44511645ad96858
-      size: 41061
+      md5: 316308a625893c29fe5ed607857ee17d
+      size: 41029
   train:
     cmd: python -m src.train
     deps:
     - path: data/processed/test.csv
       hash: md5
-      md5: 36938e8c6ded4719009f683901e93272
-      size: 1862
+      md5: 5181ffe3308cf6491f16dc03f40278ad
+      size: 1887
     - path: data/processed/train.csv
       hash: md5
-      md5: 361c02f3cc89284de44511645ad96858
-      size: 41061
+      md5: 316308a625893c29fe5ed607857ee17d
+      size: 41029
     - path: src/config.py
       hash: md5
-      md5: 51d2ba4fa65702644fa3ee78e5532f02
-      size: 2713
+      md5: ba275c086f0349cce14b98cc5a19c748
+      size: 2788
     - path: src/train.py
       hash: md5
       md5: a7973fe0c2c13898f5cd7de6ec044712
@@ -51,6 +51,7 @@ stages:
       params.yaml:
         train.experimento_mlflow: s1_taller_xm
         train.fuente: XM_DemaCome_OpenMeteo_Bogota
+        train.mlflow_tracking_uri: http://35.171.88.196
         train.modelo: sarimax
         train.orden:
         - 2
@@ -65,9 +66,9 @@ stages:
     outs:
     - path: data/processed/predicciones_test.csv
       hash: md5
-      md5: 3dd0a176b636fe93d25b95c04bea477a
-      size: 4309
+      md5: 7d028069e4fcae1f21e8afa9688f8c7d
+      size: 4330
     - path: metrics.json
       hash: md5
-      md5: e60c7d4673e41fd274e5146a2d67d6dc
-      size: 326
+      md5: 11b785239c0d6c97f72b879ebd552115
+      size: 323
