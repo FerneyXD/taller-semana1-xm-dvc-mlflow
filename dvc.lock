@@ -41,8 +41,8 @@ stages:
       size: 41029
     - path: src/config.py
       hash: md5
-      md5: 47a591735c663f801cbe8f34c539f3d8
-      size: 2712
+      md5: 51d2ba4fa65702644fa3ee78e5532f02
+      size: 2713
     - path: src/train.py
       hash: md5
       md5: a7973fe0c2c13898f5cd7de6ec044712
@@ -61,13 +61,13 @@ stages:
         - 1
         - 0
         - 24
-        train.usar_exogena: false
+        train.usar_exogena: true
     outs:
     - path: data/processed/predicciones_test.csv
       hash: md5
-      md5: 79028e5855af79ae3b9864c81b0c074f
-      size: 4345
+      md5: f7671aba5cc2c7928e961681d09c665b
+      size: 4351
     - path: metrics.json
       hash: md5
-      md5: 9a669ffb91928f614c80a88c1335095d
-      size: 324
+      md5: d0b2e20f369ff6e3c48fb73e2f5b7f99
+      size: 325

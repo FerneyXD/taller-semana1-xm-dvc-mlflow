@@ -4,9 +4,9 @@
 
 train:
   modelo: sarimax
-  orden: [1, 1, 1]
-  orden_estacional: [1, 1, 0, 24]
-  usar_exogena: true
+  orden: [1, 0, 1]
+  orden_estacional: [1, 1, 1, 24]
+  usar_exogena: false
   experimento_mlflow: s1_taller_xm
   mlflow_tracking_uri: http://127.0.0.1:5000
   fuente: XM_DemaCome_OpenMeteo_Bogota
