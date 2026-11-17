@@ -25,6 +25,7 @@ stages:
       - train.orden_estacional
       - train.usar_exogena
       - train.experimento_mlflow
+      - train.mlflow_tracking_uri
       - train.fuente
     outs:
       - data/processed/predicciones_test.csv
