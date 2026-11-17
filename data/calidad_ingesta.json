@@ -1,0 +1,22 @@
+{
+  "n_observaciones": 1800,
+  "fecha_inicio": "2026-08-29T00:00:00",
+  "fecha_fin": "2026-11-11T23:00:00",
+  "indice_horario_regular": true,
+  "nulos_demanda": 0,
+  "nulos_temperatura": 0,
+  "demanda_min_mwh": 7565.896,
+  "demanda_max_mwh": 12707.34,
+  "demanda_media_mwh": 10275.086,
+  "temperatura_min_c": 9.0,
+  "temperatura_max_c": 24.0,
+  "temperatura_media_c": 15.71,
+  "atipicos_iqr_demanda": 0,
+  "limites_iqr_demanda": [
+    6288.45,
+    14317.23
+  ],
+  "duplicados_xm": 0,
+  "huecos_xm_imputados": 0,
+  "huecos_temperatura_imputados": 0
+}
