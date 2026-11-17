@@ -224,14 +224,14 @@ def log_run_to_mlflow(
 
         train_dataset = mlflow.data.from_pandas(
             train_df.reset_index(),
-            source=f"dvc://{dvc_hash}/data/xm_demanda.csv",
-            name="xm_demanda_train",
+            source="data/processed/train.csv",
+            name=f"xm_demanda_train_{dvc_hash[:8]}",
             targets="demanda_mwh",
         )
         test_dataset = mlflow.data.from_pandas(
             test_df.reset_index(),
-            source=f"dvc://{dvc_hash}/data/xm_demanda.csv",
-            name="xm_demanda_test",
+            source="data/processed/test.csv",
+            name=f"xm_demanda_test_{dvc_hash[:8]}",
             targets="demanda_mwh",
         )
         mlflow.log_input(train_dataset, context="training")
