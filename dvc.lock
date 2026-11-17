@@ -53,21 +53,21 @@ stages:
         train.fuente: XM_DemaCome_OpenMeteo_Bogota
         train.modelo: sarimax
         train.orden:
-        - 2
         - 1
-        - 0
+        - 1
+        - 1
         train.orden_estacional:
         - 1
         - 1
-        - 1
+        - 0
         - 24
-        train.usar_exogena: true
+        train.usar_exogena: false
     outs:
     - path: data/processed/predicciones_test.csv
       hash: md5
-      md5: 31f3452f2c09dfd2f9fecebb8999c714
-      size: 4336
+      md5: 79028e5855af79ae3b9864c81b0c074f
+      size: 4345
     - path: metrics.json
       hash: md5
-      md5: 573fb25037135d6a7a88b8289e9471db
-      size: 323
+      md5: 9a669ffb91928f614c80a88c1335095d
+      size: 324
