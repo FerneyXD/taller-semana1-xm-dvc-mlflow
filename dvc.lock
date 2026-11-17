@@ -54,21 +54,21 @@ stages:
         train.mlflow_tracking_uri: http://35.171.88.196
         train.modelo: sarimax
         train.orden:
-        - 2
         - 1
-        - 0
+        - 1
+        - 1
         train.orden_estacional:
         - 1
         - 1
-        - 1
+        - 0
         - 24
-        train.usar_exogena: true
+        train.usar_exogena: false
     outs:
     - path: data/processed/predicciones_test.csv
       hash: md5
-      md5: 31f3452f2c09dfd2f9fecebb8999c714
-      size: 4336
+      md5: 79028e5855af79ae3b9864c81b0c074f
+      size: 4345
     - path: metrics.json
       hash: md5
-      md5: 6c30bcec04cfcbe1e9e5eb01e23a3150
-      size: 323
+      md5: 53e754d63cdcedb8e4fe9fcd4d823c06
+      size: 324
