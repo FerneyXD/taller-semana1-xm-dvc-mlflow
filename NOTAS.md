@@ -7,11 +7,11 @@
 - **Repositorio Git:** rama `main` (`user.name = FerneyXD`, `user.email = ferney.guillen01@usa.edu.co`)
 - **Python y dependencias clave:** Python `3.12.13`, `pandas==2.3.3` (`<3` obligatorio para `pydataxm`), `pydataxm==0.3.19`, `statsmodels==0.15.0`, `mlflow==3.18.0`, `dvc==3.67.1`, `dvc-s3==3.3.0`, `numpy==2.5.5`, `matplotlib==3.11.2`.
 - **Remoto DVC (AWS S3):** `aws_s3 -> s3://dvc-taller-xm-509780086678/dvcstore` (región `us-east-1`, cuenta AWS `509780086678`).
-- **Servidor MLflow en AWS EC2:** `http://98.83.152.10` (IP pública dinámica sin Elastic IP para evitar costos en reposo; Nginx puerto `80` con compresión gzip -> MLflow `:5000`, CORS habilitado)
+- **Servidor MLflow en AWS EC2:** `http://3.93.69.202` (IP pública dinámica sin Elastic IP para evitar costos en reposo; Nginx puerto `80` con compresión gzip -> MLflow `:5000`, CORS habilitado)
   - **Instancia EC2:** `i-079e351d5f0b88938` (`MLflow-Taller-XM-Server`, `t3.medium`, 4 GB RAM + 2 GB swap, Ubuntu 22.04, key pair `vockey`, rol IAM `LabInstanceProfile`, security group `sg-0e995d518d3b63532` con puertos 22, 80 y 5000).
   - **Backend Store:** `sqlite:////opt/mlflow/mlflow.db` gestionado por `systemd` (`mlflow-server.service`, `--workers 1`, `--allowed-hosts "*"`, `--cors-allowed-origins "*"`).
   - **Artifact Store (AWS S3):** `s3://dvc-taller-xm-509780086678/mlflow-artifacts` (`--serve-artifacts`, 32 archivos verificados en S3).
-- **Experimento MLflow:** `s1_taller_xm` (`http://98.83.152.10/#/experiments/1`).
+- **Experimento MLflow:** `s1_taller_xm` (`http://3.93.69.202/#/experiments/1`).
 - **Seguridad:** Ninguna credencial ni llave privada (`*.pem`, `.env`, `mlflow.db`) fue versionada en Git (protegidas en `.gitignore`).
 
 ---
@@ -75,7 +75,7 @@ En la primera ejecución, DVC calcula y registra en `dvc.lock` los hashes MD5 de
 
 ## 5. Comparación de runs en MLflow AWS (Partes 5 y 7)
 
-Tabla exportada desde MLflow en AWS EC2 (`http://98.83.152.10`) mediante `src/compare.py` (`mlflow.search_runs(..., order_by=["metrics.rmse_test ASC"])`) en `comparacion_runs.csv` (incluye las 6 configuraciones sobre `v3` y la extensión opcional de la Parte 5.4 sobre `v1`, con todos los artefactos persistidos en `s3://dvc-taller-xm-509780086678/mlflow-artifacts/`):
+Tabla exportada desde MLflow en AWS EC2 (`http://3.93.69.202`) mediante `src/compare.py` (`mlflow.search_runs(..., order_by=["metrics.rmse_test ASC"])`) en `comparacion_runs.csv` (incluye las 6 configuraciones sobre `v3` y la extensión opcional de la Parte 5.4 sobre `v1`, con todos los artefactos persistidos en `s3://dvc-taller-xm-509780086678/mlflow-artifacts/`):
 
 | # | Run Name | Dataset | Exógena | `rmse_test` (MWh) | `mae_test` (MWh) | `mape_test` (%) | AIC | BIC | `dvc_data_hash` | `git_commit` |
 | :-: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- | :---: |
@@ -145,7 +145,7 @@ Auditoria automatizada ejecutada con `python -m src.verify` (`all_passed: true`)
 | `aic` | `12014.036251282108` | `12014.036251282108` | `0.0` |
 | `bic` | `12038.717964961279` | `12038.717964961279` | `0.0` |
 
-**Resultado:** Reproducibilidad **bit a bit exacta** (`diferencia = 0.0` en todas las métricas) reconstruyendo desde Git + Amazon S3 contra MLflow en AWS EC2 (`http://98.83.152.10`).
+**Resultado:** Reproducibilidad **bit a bit exacta** (`diferencia = 0.0` en todas las métricas) reconstruyendo desde Git + Amazon S3 contra MLflow en AWS EC2 (`http://3.93.69.202`).
 
 ---
 

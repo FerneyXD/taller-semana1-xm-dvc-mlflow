@@ -1,12 +1,12 @@
 {
   "modelo": "sarimax_sinexog_210_111_24",
-  "mlflow_run_id": "6fd771ad773c4eb49177177c6b91cb0c",
+  "mlflow_run_id": "510ef516959841faaa09ef251e5e47ee",
   "n_train": 1080,
   "n_test": 48,
   "converged": true,
-  "rmse_test": 274.0560739964805,
-  "mae_test": 227.93227387451086,
-  "mape_test": 2.059858557107466,
-  "aic": 11979.378943924152,
-  "bic": 12004.060657603322
+  "rmse_test": 270.5018010439814,
+  "mae_test": 216.3378630008841,
+  "mape_test": 1.8776509158332,
+  "aic": 12014.036251282108,
+  "bic": 12038.717964961279
 }

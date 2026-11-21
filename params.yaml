@@ -8,5 +8,5 @@ train:
   orden_estacional: [1, 1, 1, 24]
   usar_exogena: false
   experimento_mlflow: s1_taller_xm
-  mlflow_tracking_uri: http://98.83.152.10
+  mlflow_tracking_uri: http://3.93.69.202
   fuente: XM_DemaCome_OpenMeteo_Bogota
